@@ -1,3 +1,5 @@
 [user]
 	email = typhoonsword@gmail.com
 	name = Weichu Liu
+[core]
+    excludesfile = "~/.gitignore_global"
