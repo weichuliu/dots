@@ -1,0 +1,19 @@
+#!/bin/bash
+
+## ls
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+## git
+alias gdiff='git diff'
+alias cached='git diff --cached'
+alias commit='git commit'
+alias amend='git commit --amend'
+alias no-edit='git commit --amend --no-edit'
+alias status='git status'
+alias checkout='git checkout'
+alias blame='git blame'
+alias branch='git branch'
+alias master='git checkout master'
+alias develop='git checkout develop'
