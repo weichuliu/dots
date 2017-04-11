@@ -13,7 +13,30 @@ alias amend='git commit --amend'
 alias no-edit='git commit --amend --no-edit'
 alias status='git status'
 alias checkout='git checkout'
+alias stash='git stash'
 alias blame='git blame'
 alias branch='git branch'
 alias master='git checkout master'
 alias develop='git checkout develop'
+alias force='push force'
+
+## ack
+alias ack='ack --nogroup --color-match=bright_red --color-filename=magenta --color-lineno=green'
+
+## yaml/json
+alias y2j='python3 -c "import json, yaml, sys; yamlfile = sys.stdin if len(sys.argv) == 1 else open(sys.argv[1]); print(json.dumps(yaml.load(yamlfile.read())))"'
+alias j2y='python3 -c "import json, yaml, sys; jsonfile = sys.stdin if len(sys.argv) == 1 else open(sys.argv[1]); print(yaml.dump(json.loads(jsonfile.read()), default_flow_style=False))"'
+
+## ad-hoc
+alias pbpaste-join='pbpaste | tr "\n" " "'
+alias ccat='pygmentize -g'
+alias weather='curl wttr.in/tokyo'
+
+## vagrant
+alias ub="VAGRANT_CWD=$HOME/work/vm/trusty vagrant"
+
+## cd
+# alias cfg=
+
+## pr
+# alias cfgpr=
