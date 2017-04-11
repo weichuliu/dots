@@ -38,7 +38,7 @@ alias f.='find . | grep'
 alias ub="VAGRANT_CWD=$HOME/work/vm/trusty vagrant"
 
 ## cd
-# alias cfg=
+alias yak='cd ~/work/dots'
 
 ## pr
 # alias cfgpr=
