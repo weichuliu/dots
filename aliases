@@ -31,6 +31,8 @@ alias j2y='python3 -c "import json, yaml, sys; jsonfile = sys.stdin if len(sys.a
 alias pbpaste-join='pbpaste | tr "\n" " "'
 alias ccat='pygmentize -g'
 alias weather='curl wttr.in/tokyo'
+alias soniq='sort | uniq'
+alias f.='find . | grep'
 
 ## vagrant
 alias ub="VAGRANT_CWD=$HOME/work/vm/trusty vagrant"
