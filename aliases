@@ -33,9 +33,11 @@ alias ccat='pygmentize -g'
 alias weather='curl wttr.in/tokyo'
 alias soniq='sort | uniq'
 alias f.='find . | grep'
+alias timeat='date -r'
 
 ## vagrant
-alias ub="VAGRANT_CWD=$HOME/work/vm/trusty vagrant"
+alias ub="VAGRANT_CWD=$HOME/work/vms/xenial vagrant"
+alias centos="VAGRANT_CWD=$HOME/work/vms/centos vagrant"
 
 ## cd
 alias yak='cd ~/work/dots'
