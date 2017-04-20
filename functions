@@ -48,5 +48,11 @@ tel () {
 }
 
 ## subl
-sf. () { echo "$(f. $@)"; subl $(f. $@); }
-sack () { echo "$(ack -l $@)"; subl $(ack -l $@); }
+sf. () {
+  echo "$(f. $@)"
+  subl $(f. $@)
+}
+sack () {
+  echo "$(ack -l $@)"
+  subl $(ack -l $@)
+}
