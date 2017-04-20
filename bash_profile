@@ -4,10 +4,11 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
 fi
 
-# aliases & functions & envvars
+# aliases & functions & envvars & completes
 if [ -f ~/.envvars ]; then . ~/.envvars; fi
 if [ -f ~/.aliases ]; then . ~/.aliases; fi
 if [ -f ~/.functions ]; then . ~/.functions; fi
+if [ -f ~/.completes ]; then . ~/.completes; fi
 if [ -f ~/.fortytwo ]; then . ~/.fortytwo; fi # nazo
 
 # iTerm2 integration
