@@ -1,6 +1,6 @@
 # Dots
 
-[Weichu's](github.com/weichuliu) yak-shaving dotfiles
+[Weichu's](https://www.github.com/weichuliu) yak-shaving dotfiles
 
 ## Installation
 
