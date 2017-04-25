@@ -28,6 +28,7 @@ readline
 rlwrap
 ruby
 sqlite
+terminal-notifier
 thefuck
 tig
 tmux
