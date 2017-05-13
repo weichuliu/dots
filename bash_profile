@@ -14,10 +14,7 @@ if [ -f ~/.fortytwo ]; then . ~/.fortytwo; fi # nazo
 # iTerm2 integration
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
-# PS1
-PS1='\[\033[1;32m\]\u \[\033[1;34m\]\w\[\033[0m\]$(__git_ps1) \$ '
-
-# # rbenv
+# rbenv
 eval "$(rbenv init - --no-rehash)"
 
 # thefuck
