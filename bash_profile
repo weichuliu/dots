@@ -21,8 +21,8 @@ PS1='\[\033[1;32m\]\u \[\033[1;34m\]\w\[\033[0m\]$(__git_ps1) \$ '
 export PATH="/usr/local/jre/bin:$PATH"
 
 # # rbenv
-# export PATH="$HOME/.rbenv/bin:$PATH"
-# eval "$(rbenv init - --no-rehash)"
+eval "$(rbenv init - --no-rehash)"
+
 # # Golang Settings
 # export GOPATH=$HOME/go
 # export PATH="$PATH:$GOPATH/bin"
