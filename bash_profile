@@ -23,10 +23,9 @@ export PATH="/usr/local/jre/bin:$PATH"
 # # rbenv
 eval "$(rbenv init - --no-rehash)"
 
-# # Golang Settings
-# export GOPATH=$HOME/go
-# export PATH="$PATH:$GOPATH/bin"
-
+# Golang
+$ export GOPATH=$(go env GOPATH)
+$ export PATH=$PATH:$(go env GOPATH)/bin
 
 # thefuck
 eval $(thefuck --alias)

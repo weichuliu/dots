@@ -12,6 +12,7 @@ gettext
 git
 glib
 gmp
+go
 httpie
 jq
 leiningen
