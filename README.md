@@ -19,6 +19,7 @@ $ for dotfile in aliases \
                 gitconfig \
                 gitignore_global \
                 inputrc \
+                gemrc \
                 vimrc; do
     ln -s ~/work/dots/${dotfile} ~/.${dotfile}
 done
