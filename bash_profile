@@ -17,15 +17,8 @@ test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shel
 # PS1
 PS1='\[\033[1;32m\]\u \[\033[1;34m\]\w\[\033[0m\]$(__git_ps1) \$ '
 
-# Java - http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html
-export PATH="/usr/local/jre/bin:$PATH"
-
 # # rbenv
 eval "$(rbenv init - --no-rehash)"
-
-# Golang
-$ export GOPATH=$(go env GOPATH)
-$ export PATH=$PATH:$(go env GOPATH)/bin
 
 # thefuck
 eval $(thefuck --alias)

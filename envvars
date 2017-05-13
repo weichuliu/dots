@@ -9,3 +9,12 @@ export HISTFILESIZE=50000
 ## colored ls/grep
 export CLICOLOR=true
 export GREP_OPTIONS="--color=auto"
+
+## PATH
+
+# Java - http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html
+export PATH="/usr/local/jre/bin:$PATH"
+
+# Golang
+$ export GOPATH=$(go env GOPATH)
+$ export PATH=$PATH:$(go env GOPATH)/bin
