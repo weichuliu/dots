@@ -35,3 +35,4 @@ $ git config --global user.email #<user.email>
 - brew_list: Softwares I installed with Homebrew
 - sublime-settings: Sublime Settings
 - ssh_config: If you want, you can link it to ~/.ssh/config
+- ssh_config_vagrant: linked from ~/.ssh/config.d/vagrant, to work with [xenial box](https://www.github.com/weichuliu/xenial)
