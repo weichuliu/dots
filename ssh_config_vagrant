@@ -8,3 +8,13 @@ Host ub
   IdentityFile ~/work/vms/focal/.vagrant/machines/default/virtualbox/private_key
   IdentitiesOnly yes
   LogLevel FATAL
+Host centos
+  HostName 192.168.56.12
+  User vagrant
+  Port 22
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile ~/work/vms/centos/.vagrant/machines/default/virtualbox/private_key
+  IdentitiesOnly yes
+  LogLevel FATAL
