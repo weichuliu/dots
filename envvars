@@ -16,5 +16,5 @@ export GREP_OPTIONS="--color=auto"
 export PATH="/usr/local/jre/bin:$PATH"
 
 # Golang
-$ export GOPATH=$(go env GOPATH)
-$ export PATH=$PATH:$(go env GOPATH)/bin
+export GOPATH=$(go env GOPATH)
+export PATH=$PATH:$(go env GOPATH)/bin
