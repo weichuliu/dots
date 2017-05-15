@@ -1,7 +1,8 @@
 #!/bin/bash
 # Auto completion
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    . $(brew --prefix)/etc/bash_completion
+# Replace $(brew --prefix)to accelerate startup
+if [ -f /usr/local/etc/bash_completion ]; then
+    . /usr/local/etc/bash_completion
 fi
 
 # aliases & functions & envvars & completes
@@ -17,5 +18,5 @@ test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shel
 # rbenv
 eval "$(rbenv init - --no-rehash)"
 
-# thefuck
-eval $(thefuck --alias)
+# thefuck - too slow
+# eval $(thefuck --alias)
