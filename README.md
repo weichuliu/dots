@@ -4,6 +4,13 @@
 
 ## Installation
 
+#### Homebrew installation:
+
+1. [Download](https://developer.apple.com/download/more/) and install **Command Line Tools**
+2. [Install](https://brew.sh/) Homebrew
+
+#### Link dotfiles
+
 ```bash
 # Clone git to ~/work/dots
 $ cd ~
@@ -29,6 +36,18 @@ unset dotfile
 $ git config --global user.name #<user.name>
 $ git config --global user.email #<user.email>
 ```
+
+#### Configure iTerm2
+
+This repository works with `iTerm2` + `bash 4.x` environment.
+`bash 4.x` should be installed by `Homebrew` and be set as default login shell:
+
+1. `brew install bash`
+2. iTerm2: `Profiles -> General -> Command -> Commands` set to `/usr/local/bin/bash --login`
+
+The `inputrc` works with `iTerm2`'s `xterm` Key Mappings:
+
+- iTerm2: `Profiles -> Keys -> Load Preset...` select `xterm with Numeric Keypad`
 
 ## Other files
 
