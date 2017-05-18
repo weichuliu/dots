@@ -36,17 +36,6 @@ push () {
   fi
 }
 
-## tel
-tel () {
-  local stepsvr=AAAAAAAAAA
-  echo "Telepathing..."
-  if nc -v -z -G 3 $stepsvr 22 2> /dev/null ; then
-    expect ~/AAAAAAAAAA.expect ssh $stepsvr WEICHU PW "$@"
-  else
-    echo "Connection failed. Check VPN"
-  fi
-}
-
 ## subl
 sf. () {
   echo "$(f. $@)"
