@@ -5,6 +5,7 @@ gdifff () { git diff --color "$@" | diff-so-fancy; }
 prune () (
   set -euo pipefail
 
+  remote_repo="${remote_repo:-origin}"
   branch_name="$(git rev-parse --abbrev-ref HEAD)"
 
   if [[ "${branch_name}" =~ ^(master|develop)$ ]]; then
@@ -12,12 +13,13 @@ prune () (
   else
     git_action=fetch
   fi
-  echo $(tput setaf 6)git $git_action origin --prune$(tput sgr0)
-  git $git_action origin --prune
+  echo $(tput setaf 6)git $git_action $remote_repo --prune$(tput sgr0)
+  git $git_action $remote_repo --prune
 )
 push () (
   set -euo pipefail
 
+  remote_repo="${remote_repo:-origin}"
   branch_name="$(git rev-parse --abbrev-ref HEAD)"
 
   [[ "${branch_name}" =~ ^(master|develop)$ ]] &&
@@ -25,11 +27,11 @@ push () (
     return 1
 
   if [ "${1:-}" == "force" ]; then
-    cmd="git push origin --force-with-lease"
-    color_cmd="git push origin $(tput setaf 1)--force-with-lease $(tput setaf 2)$branch_name$(tput sgr0)"
+    cmd="git push $remote_repo --force-with-lease"
+    color_cmd="git push $remote_repo $(tput setaf 1)--force-with-lease $(tput setaf 2)$branch_name$(tput sgr0)"
   else
-    cmd="git push origin"
-    color_cmd="git push origin $(tput setaf 2)$branch_name$(tput sgr0)"
+    cmd="git push $remote_repo"
+    color_cmd="git push $remote_repo $(tput setaf 2)$branch_name$(tput sgr0)"
   fi
 
   echo "$color_cmd"
