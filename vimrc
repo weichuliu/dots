@@ -8,3 +8,6 @@ set list
 set listchars=tab:▸\ 
 highlight Tabs ctermbg=cyan
 match Tabs /\t/
+
+" Visual color
+highlight Visual term=reverse cterm=reverse guibg=Grey
