@@ -16,8 +16,11 @@ alias checkout='git checkout'
 alias stash='git stash'
 alias blame='git blame'
 alias branch='git branch'
+alias tag='git tag'
 alias master='git checkout master'
 alias develop='git checkout develop'
+alias rcont='git rebase --continue'
+alias mcont='git merge --continue'
 alias force='push force'
 
 ## ack
