@@ -27,7 +27,8 @@ $ for dotfile in aliases \
                 gitignore_global \
                 inputrc \
                 gemrc \
-                vimrc; do
+                vimrc \
+                curlrc ; do
     ln -s ~/work/dots/${dotfile} ~/.${dotfile}
 done
 unset dotfile
