@@ -23,6 +23,7 @@ $ for dotfile in aliases \
                 completes \
                 envvars \
                 functions \
+                iterm2_shell_integration.bash \
                 gitconfig \
                 gitignore_global \
                 inputrc \
@@ -49,6 +50,12 @@ This repository works with `iTerm2` + `bash 4.x` environment.
 The `inputrc` works with `iTerm2`'s `xterm` Key Mappings:
 
 - iTerm2: `Profiles -> Keys -> Load Preset...` select `xterm with Numeric Keypad`
+
+#### iTerm2 Shell Integration Script
+
+The `iterm2_shell_integration` downloaded from [here](https://iterm2.com/shell_integration/bash) is slightly different from the one that installed by iTerm2.
+
+It is a cleaner bash-preexec version, to solve [#5787](https://gitlab.com/gnachman/iterm2/issues/5787).
 
 ## Other files
 
