@@ -23,6 +23,9 @@ alias rcont='git rebase --continue'
 alias mcont='git merge --continue'
 alias force='push force'
 
+## use fancy git diff to diff files
+alias difff='git diff --no-index'
+
 ## ack
 alias ack='ack --nogroup --color-match=bright_red --color-filename=magenta --color-lineno=green'
 
