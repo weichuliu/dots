@@ -8,7 +8,7 @@ from prompt_toolkit.keys import Keys
 from prompt_toolkit.key_binding.bindings.named_commands import get_by_name
 ____ip = get_ipython()
 # print(ip)
-if hasattr(____ip, 'pt_cli'):
+if getattr(____ip, 'pt_cli', None):
     # Meta + ^
     ____ip.pt_cli.application.key_bindings_registry.add_binding(
         Keys.Escape, *'[1;9A',
