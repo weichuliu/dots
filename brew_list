@@ -4,6 +4,8 @@ bash
 bash-completion
 curl
 diff-so-fancy
+docker
+docker-machine
 fribidi
 fswatch
 gawk
@@ -13,15 +15,18 @@ git
 glib
 gmp
 go
+htop
 httpie
 jq
 leiningen
+less
 libevent
 libffi
 libyaml
 mpfr
 oniguruma
 openssl
+openssl@1.1
 pcre
 perl
 pkg-config
