@@ -57,6 +57,10 @@ The `iterm2_shell_integration` downloaded from [here](https://iterm2.com/shell_i
 
 It is a cleaner bash-preexec version, to solve [#5787](https://gitlab.com/gnachman/iterm2/issues/5787).
 
+#### `pyenv` and `rbenv`
+
+`Dotfiles` expects you use `pyenv`/`rbenv` to manage `Python`/`Ruby` versions. They are installed by `Homebrew`, while actual `Python`/`Ruby` packages/libraries should be installed and managed manually using these two commands.
+
 #### IPython 5.0+ "Option(Alt) + Arrows"
 
 If you are using `ipython` and find `Option(Alt) + Up/Down/Left/Right` throwing `[1;9A` ish code, do the following:

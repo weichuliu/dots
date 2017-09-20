@@ -30,6 +30,7 @@ openssl@1.1
 pcre
 perl
 pkg-config
+pyenv
 python
 python3
 rbenv

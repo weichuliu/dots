@@ -15,8 +15,9 @@ if [ -f ~/.fortytwo ]; then . ~/.fortytwo; fi # nazo
 # iTerm2 integration
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
-# rbenv
-eval "$(rbenv init - --no-rehash)"
+# rbenv + pyenv
+eval "$(rbenv init - --no-rehash 2>/dev/null)"
+eval "$(pyenv init - --no-rehash 2>/dev/null)"
 
 # thefuck - too slow
 # eval $(thefuck --alias)
