@@ -22,6 +22,8 @@ leiningen
 less
 libevent
 libffi
+libidn2
+libunistring
 libyaml
 mpfr
 oniguruma
