@@ -74,6 +74,7 @@ to have ipython correctly bind the sequence to word jump / history search.
 ## Other files
 
 - brew_list: Softwares I installed with Homebrew
-- sublime-settings: Sublime Settings
+- sublime-settings: Sublime Settings (paste them in "Preference: Settings")
+- sublime-keymap: Sublime macOS keymap, fixes `Option` key functions (paste them in "Preference: Key Bindings")
 - ssh_config: If you want, you can link it to ~/.ssh/config
 - ssh_config_vagrant: linked from ~/.ssh/config.d/vagrant, to work with [xenial box](https://www.github.com/weichuliu/xenial)
