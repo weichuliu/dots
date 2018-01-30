@@ -1,6 +1,6 @@
 Host ub
   HostName 192.168.33.10
-  User ubuntu
+  User vagrant
   Port 22
   UserKnownHostsFile /dev/null
   StrictHostKeyChecking no
