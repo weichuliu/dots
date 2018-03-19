@@ -21,3 +21,6 @@ export PATH="/usr/local/jre/bin:$PATH"
 # Golang
 export GOPATH="$HOME/go"
 export PATH=$PATH:"$HOME/go/bin"
+
+# iTerm2 set pane_id
+pane_id="$(grep -oE "p\d+:" <<<"${ITERM_SESSION_ID:-}" | grep -oE "\d+" | awk "{print \$0 + 1}")"

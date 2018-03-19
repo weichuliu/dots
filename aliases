@@ -48,5 +48,5 @@ alias centos="VAGRANT_CWD=$HOME/work/vms/centos vagrant"
 ## cd
 alias yak='cd ~/work/dots'
 
-## pr
-# alias cfgpr=
+# iTerm2 Pane ID
+alias pbpaste-pane='pbpaste | sed "${pane_id}q;d"' # Paste the $pane_id line from clipboard

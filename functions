@@ -49,3 +49,8 @@ sack () {
   echo "$(ack -l $@)"
   subl $(ack -l $@)
 }
+
+# sum up the $1 column
+sumup () {
+  awk -v column="$1" '{a += $column} END {print a}' -
+}
