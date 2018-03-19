@@ -34,12 +34,12 @@ perl
 pkg-config
 pyenv
 python
-python3
 rbenv
 readline
 rlwrap
 ruby
 ruby-build
+sbt
 sqlite
 terminal-notifier
 thefuck
