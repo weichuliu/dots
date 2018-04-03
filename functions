@@ -54,3 +54,19 @@ sack () {
 sumup () {
   awk -v column="$1" '{a += $column} END {print a}' -
 }
+
+# pbedit
+pbedit () {
+  # Edit clipboard using vim, then save it back
+  # If stdout is pipe, pbpaste to stdout
+  local temporary_buffer="$(mktemp)"
+  pbpaste > "$temporary_buffer"
+  (
+    exec &> /dev/tty
+    vim "$temporary_buffer"
+  )
+  pbcopy < "$temporary_buffer"
+  rm "$temporary_buffer"
+  # If stdout is a pipe
+  [[ -p /dev/stdout ]] && pbpaste
+}
