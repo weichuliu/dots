@@ -63,7 +63,8 @@ pbedit () {
   pbpaste > "$temporary_buffer"
   (
     exec &> /dev/tty
-    vim "$temporary_buffer"
+    # do no modify the EOF newline
+    vim -c 'set nofixendofline' "$temporary_buffer"
   )
   pbcopy < "$temporary_buffer"
   rm "$temporary_buffer"
