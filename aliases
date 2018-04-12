@@ -37,7 +37,6 @@ alias j2y='python3 -c "import json, yaml, sys; jsonfile = sys.stdin if len(sys.a
 alias pbpaste-join='pbpaste | tr "\n" " "'
 alias ccat='pygmentize -g'
 alias weather='curl wttr.in/tokyo'
-alias soso='socli' # github.com/gautamkrishnar/socli
 alias soniq='sort | uniq'
 alias f.='find . | grep'
 alias timeat='date -r'
