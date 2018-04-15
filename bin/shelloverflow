@@ -1,0 +1,120 @@
+#!/usr/bin/env python3
+# TODO: if lucky fails, use google search result
+#       multi q/a
+import sys
+import re
+import requests
+import html.parser
+from urllib import parse
+import termcolor
+from termcolor import colored
+from bs4 import BeautifulSoup
+from google import google_search
+
+# To deceive google
+google_is_happy_header = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)'
+# returns answers from /questions/ also returns body_markdown for q+a
+so_api_filter = '!b1MMEU*.-3EcYn'
+so_api_url = 'https://api.stackexchange.com/2.2/questions/{}?site=stackoverflow&filter={}'
+
+def so_qid_lucky(query):
+    lucky_so_query = google_search(f'site:stackoverflow.com {query}', feeling_lucky=True)
+    res = requests.get(lucky_so_query, headers={'User-Agent': google_is_happy_header})
+    if res.status_code != 200:
+        print(f'Get status_code {res.status_code}!=200 when finding stackoverflow URL', file=sys.stderr)
+        return None
+    lucky_url = res.url
+    if parse.urlsplit(lucky_url).netloc != 'stackoverflow.com':
+        # print(f'Found no lucky stackoverflow.com url\nLink: {lucky_url}', file=sys.stderr)
+        qids = extract_so_questions_from(res)
+        return qids[0] if qids else None
+    if re.search('/questions/(\d+)/', lucky_url):
+        return re.search('/questions/(\d+)/', lucky_url).group(1)
+    else:
+        print(f'Cannot find question id from {lucky_url}', file=sys.stderr)
+        return None
+
+def extract_so_questions_from(response):
+    # copy from socli
+    if 'google' not in parse.urlsplit(response.url).netloc:
+        print(f'Found no google url\nLink: {response.url}', file=sys.stderr)
+        return None
+    soup = BeautifulSoup(response.text, 'html.parser')
+    results = soup.find_all('div', class_='g')
+    question_urls = [result.find("a").get("href") for result in results]
+    return [re.search('/questions/(\d+)/', question_url).group(1) for question_url in question_urls]
+
+def so_qna_in_json(qid):
+    so_question_api_url = so_api_url.format(qid, so_api_filter)
+    res = requests.get(so_question_api_url)
+    assert res.status_code == 200, f'return code is {res.status_code} while querying {so_question_api_url}'
+    return res.json()
+
+def render_so_qna(contents):
+    question = contents['items'][0]
+    question_title = question['title']
+    question_link = question['link']
+    question_body = html.parser.unescape(question['body_markdown'])
+
+    accepted_answer = [a for a in question['answers'] if a['is_accepted']][0]
+    accepted_answer_body = html.parser.unescape(accepted_answer['body_markdown'])
+
+    # TODO: switch color/non-color in a proper way
+    if sys.stdout.isatty():
+        rendered_texts = [
+            f"{colored(question_title, attrs=['bold'])} ({colored(question_link, 'green')})",
+            '',
+            rendered_md_body(question_body),
+            colored('---------- Accepted Answer ----------', 'yellow', attrs=['bold']),
+            rendered_md_body(accepted_answer_body),
+        ]
+    else:
+        rendered_texts = [
+            f"{question_title} ({question_link})",
+            '',
+            question_body,
+            '---------- Accepted Answer ----------',
+            accepted_answer_body,
+        ]
+    return u'\n'.join(rendered_texts)
+
+def rendered_md_body(body):
+    # TODO
+    # CAVEAT: Ok, the second highlight within highlight block will remove the effect
+    #   probably time to do the real highlighting
+    def __rendered_strong(m):
+        return colored(m.group(1), attrs=['bold'])
+    def __rendered_code(m):
+        green = colored('', 'green').replace(termcolor.RESET, '')
+        return colored(m.group(1).replace(termcolor.RESET, termcolor.RESET+green), 'green')
+    def __rendered_quoted_code(m):
+        return '> ' + colored(m.group(1), 'green')
+    def __rendered_quote(m):
+        return colored('> ', 'yellow')
+
+    # strong
+    body = re.sub(r'\*\*(.*?)\*\*', __rendered_strong, body, flags=re.M)
+    # code
+    body = re.sub(r'```(.*?)```', __rendered_code, body, flags=re.DOTALL)
+    body = re.sub(r'<pre>(.*?)</pre>', __rendered_code, body, flags=re.DOTALL)
+    body = re.sub(r'`(.*?)`', __rendered_code, body, flags=re.M)
+    body = re.sub(r'^(    .*)$', __rendered_code, body, flags=re.M)
+    # quoted_code
+    body = re.sub(r'^> (    .*)$', __rendered_quoted_code, body, flags=re.M)
+    # quote
+    body = re.sub(r'^> ', __rendered_quote, body, flags=re.M)
+
+    return body
+
+
+
+def main():
+    query = ' '.join(sys.argv[1:])
+    qid = so_qid_lucky(query)
+    if qid:
+        contents = so_qna_in_json(qid)
+        print(render_so_qna(contents))
+
+
+if __name__ == '__main__':
+    main()

@@ -36,7 +36,7 @@ $ git config --global user.email #<user.email>
 
 #### Configure iTerm2
 
-This repository works with `iTerm2` + `bash 4.x` environment.
+This repository works with `iTerm2` + `bash 4.x` environment
 `bash 4.x` should be installed by `Homebrew` and be set as default login shell:
 
 1. `brew install bash`
@@ -51,15 +51,17 @@ The `inputrc` works with `iTerm2`'s `xterm` Key Mappings:
 #### dots/bin
 `/path/to/dots/bin` is appended to `PATH` to use some homemade handy commands:
 
-- `google`: quick google/I_am_feeling_lucky from terminal. Run `alias | grep google` to see some `google` shortcuts.
+- `google`: quick google/I_am_feeling_lucky from terminal. Run `alias | grep google` to see some `google` shortcuts
+- `shelloverflow`: aliases as `soso`, is a `how2`/`socli` ish command (but much nicer) by `@weichuliu`. Prints highlighted **stackoverflow** solution on terminal. Perfect for stackoverflow oriented programming
+    - This requires some additional python libraries you need to manually install with `pip3`
 
 #### iTerm2 Shell Integration Script
 
-`iterm2_shell_integration` is automatically loaded from `dots` directory, for convenience.
+`iterm2_shell_integration` is automatically loaded from `dots` directory, for convenience
 
 #### `pyenv` and `rbenv`
 
-`Dotfiles` expects you use `pyenv`/`rbenv` to manage `Python`/`Ruby` versions. They are installed by `Homebrew`, while actual `Python`/`Ruby` packages/libraries should be installed and managed manually using these two commands.
+`Dotfiles` expects you use `pyenv`/`rbenv` to manage `Python`/`Ruby` versions. They are installed by `Homebrew`, while actual `Python`/`Ruby` packages/libraries should be installed and managed manually using these two commands
 
 #### IPython 5.0+ "Option(Alt) + Arrows"
 
@@ -69,7 +71,7 @@ If you are using `ipython` and find `Option(Alt) + Up/Down/Left/Right` throwing 
 dots $ ln -s "$(pwd)/ipython_startup_keybindings.py" ~/.ipython/profile_default/startup/
 ```
 
-to have ipython correctly bind the sequence to word jump / history search.
+to have ipython correctly bind the sequence to word jump / history search
 
 ## Other files
 
