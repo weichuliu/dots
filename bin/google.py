@@ -4,6 +4,7 @@ import sys
 from subprocess import Popen
 from urllib.parse import quote_plus
 
+url_google_hp = 'https://www.google.com'
 url_google_search = 'https://www.google.com/search?ie=UTF-8&q={}'
 url_google_lucky = 'https://www.google.com/search?ie=UTF-8&btnI=1&q={}'
 url_gmap_search = 'https://www.google.com/maps/search/?api=1&query={}'
@@ -25,7 +26,9 @@ def google_map(query):
 
 if __name__ == '__main__':
     argv = sys.argv[1:]
-    if argv[0] == '-m':
+    if len(argv) == 0:
+        query_url = url_google_hp
+    elif argv[0] == '-m':
         argv.pop(0)
         query_url = google_map(' '.join(argv))
     else:
@@ -36,6 +39,6 @@ if __name__ == '__main__':
         query_url = google_search(' '.join(argv), feeling_lucky)
     print(query_url, file=sys.stderr)
     if "INCOG" in os.environ:
-        Popen(['open', '-a', 'Google Chrome', '--new', '--args', '--incognito', '--start-fullscreen', query_url])
+        Popen(['open', '-a', 'Google Chrome', '--new', '--args', '--incognito', query_url])
     else:
         Popen(['open', query_url])
