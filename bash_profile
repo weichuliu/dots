@@ -1,40 +1,32 @@
 #!/bin/bash
 # Auto completion
 # Replace $(brew --prefix) to accelerate startup
-if [ -f /usr/local/etc/bash_completion ]; then
+if [[ -f /usr/local/etc/bash_completion ]]; then
     . /usr/local/etc/bash_completion
 fi
 
+# Find __dots_dir. Will be unset after sourcing
+__dots_dir="$( dirname "$( readlink "$BASH_SOURCE" )" )"
+
+# Add dots/bin to PATH if exists
+if [[ -d "${__dots_dir}/bin" ]]; then
+    export PATH="$PATH:${__dots_dir}/bin"
+fi
+
 # aliases & functions & envvars & completes
-if [ -f ~/.envvars ]; then . ~/.envvars; fi
-if [ -f ~/.aliases ]; then . ~/.aliases; fi
-if [ -f ~/.functions ]; then . ~/.functions; fi
-if [ -f ~/.completes ]; then . ~/.completes; fi
-if [ -f ~/.fortytwo ]; then . ~/.fortytwo; fi # nazo
+if [[ -f "${__dots_dir}/envvars" ]]; then . "${__dots_dir}/envvars"; fi
+if [[ -f "${__dots_dir}/aliases" ]]; then . "${__dots_dir}/aliases"; fi
+if [[ -f "${__dots_dir}/functions" ]]; then . "${__dots_dir}/functions"; fi
+if [[ -f "${__dots_dir}/completes" ]]; then . "${__dots_dir}/completes"; fi
 
 # iTerm2 integration
-test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+if [[ -f "${__dots_dir}/iterm2_shell_integration.bash" ]]; then . "${__dots_dir}/iterm2_shell_integration.bash"; fi
+
+unset __dots_dir
+
+# nazo
+if [[ -f ~/.fortytwo ]]; then . ~/.fortytwo; fi
 
 # rbenv + pyenv
 eval "$(rbenv init - --no-rehash 2>/dev/null)"
 eval "$(pyenv init - --no-rehash 2>/dev/null)"
-
-# thefuck - too slow
-# eval $(thefuck --alias)
-
-# A nice hack to copy current READLINE into pasteboard
-# This requires bash 4.x (/usr/local/bin/bash)
-# Ref: stackoverflow.com/questions/14177700
-if grep -q ^4 <<<$BASH_VERSION ; then
-  __copyline () {
-    printf %s "$READLINE_LINE" | pbcopy
-  }
-  # Bind to 'Ctrl-x' 'c' seq
-  bind -x '"\C-xc":__copyline'
-fi
-
-# Himitsu ;-)
-nohist () {
-  unset HISTFILE
-  echo  HISTFILE unset
-}

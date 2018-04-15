@@ -18,12 +18,7 @@ $ mkdir work
 $ ( cd work && git clone https://github.com/weichuliu/dots.git )
 
 # Link files to homedir
-$ for dotfile in aliases \
-                bash_profile \
-                completes \
-                envvars \
-                functions \
-                iterm2_shell_integration.bash \
+$ for dotfile in bash_profile \
                 gitconfig \
                 gitignore_global \
                 inputrc \
@@ -51,11 +46,14 @@ The `inputrc` works with `iTerm2`'s `xterm` Key Mappings:
 
 - iTerm2: `Profiles -> Keys -> Load Preset...` select `xterm with Numeric Keypad`
 
+## Notes
+
+#### dots/bin
+`/path/to/dots/bin` is appended to `PATH` to use some homemade handy commands.
+
 #### iTerm2 Shell Integration Script
 
-The `iterm2_shell_integration` downloaded from [here](https://iterm2.com/shell_integration/bash) is slightly different from the one that installed by iTerm2.
-
-It is a cleaner bash-preexec version, to solve [#5787](https://gitlab.com/gnachman/iterm2/issues/5787).
+`iterm2_shell_integration` is automatically loaded from `dots` directory, for convenience.
 
 #### `pyenv` and `rbenv`
 
@@ -73,8 +71,8 @@ to have ipython correctly bind the sequence to word jump / history search.
 
 ## Other files
 
-- brew_list: Softwares I installed with Homebrew
-- sublime-settings: Sublime Settings (paste them in "Preference: Settings")
-- sublime-keymap: Sublime macOS keymap, fixes `Option` key functions (paste them in "Preference: Key Bindings")
-- ssh_config: If you want, you can link it to ~/.ssh/config
-- ssh_config_vagrant: linked from ~/.ssh/config.d/vagrant, to work with [xenial box](https://www.github.com/weichuliu/xenial)
+- `brew_list`: Softwares I installed with Homebrew
+- `sublime-settings`: Sublime Settings (paste them in "Preference: Settings")
+- `sublime-keymap`: Sublime macOS keymap, fixes `Option` key functions (paste them in "Preference: Key Bindings")
+- `ssh_config`: If you want, you can link it to ~/.ssh/config
+- `ssh_config_vagrant`: linked from ~/.ssh/config.d/vagrant, to work with [xenial box](https://www.github.com/weichuliu/xenial)
