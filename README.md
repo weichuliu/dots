@@ -49,7 +49,9 @@ The `inputrc` works with `iTerm2`'s `xterm` Key Mappings:
 ## Notes
 
 #### dots/bin
-`/path/to/dots/bin` is appended to `PATH` to use some homemade handy commands.
+`/path/to/dots/bin` is appended to `PATH` to use some homemade handy commands:
+
+- `google`: quick google/I_am_feeling_lucky from terminal. Run `alias | grep google` to see some `google` shortcuts.
 
 #### iTerm2 Shell Integration Script
 
