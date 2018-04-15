@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-# TODO: if lucky fails, use google search result
-#       multi q/a
+# TODO: Remove feeling_lucky, just read from search result
+#       Don't necessarily need to import google
+#       interactive questions/answers
 import sys
 import re
 import requests
