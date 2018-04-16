@@ -2,7 +2,6 @@
 # TODO: interactive questions/answers
 #       more answer choice strategy
 #       redirect if answer is duplicated?
-#       show answer if argv is qid
 #       warn on low quota
 import sys
 import re
@@ -42,7 +41,8 @@ def google_for_so_questions(query):
     return [q for q in question_results if extract_so_qid_from(q[0])]
 
 def extract_so_qid_from(url):
-    if re.search('/(questions|q)/(\d+)', url):
+    # TODO: support other websites. Now strict to stackoverflow
+    if 'stackoverflow' in url and re.search('/(questions|q)/(\d+)', url):
         return re.search('/(questions|q)/(\d+)', url).group(2)
     else:
         None
@@ -112,17 +112,24 @@ def rendered_md_body(body):
     return body
 
 def main():
-    query = ' '.join(sys.argv[1:])
-    questions = google_for_so_questions(query)
-    if questions:
-        best_matched_question = questions[0]
-        qid = extract_so_qid_from(best_matched_question[0])
-        contents = so_qna_in_json(qid)
-        print(render_so_qna(contents))
+    self_name = sys.argv[0].split('/')[-1]
+    # when --show <qid>, directly show
+    if len(sys.argv) >= 3 and sys.argv[1] == '--show':
+        qid = int(sys.argv[2])
+        questions = []
+    else:
+        query = ' '.join(sys.argv[1:])
+        questions = google_for_so_questions(query)
+        if questions:
+            best_matched_question = questions[0]
+            qid = extract_so_qid_from(best_matched_question[0])
 
-        print ('---------- Other Questions ----------')
-        for q in questions[1:]:
-            print(render_so_question_link(extract_so_qid_from(q[0]), q[1]))
+    contents = so_qna_in_json(qid)
+    print(render_so_qna(contents))
+
+    print ('---------- Other Questions ----------')
+    for q in questions[1:]:
+        print(render_so_question_link(f'{self_name} --show {extract_so_qid_from(q[0])}', q[1]))
 
 if __name__ == '__main__':
     main()
