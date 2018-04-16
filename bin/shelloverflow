@@ -1,49 +1,43 @@
 #!/usr/bin/env python3
-# TODO: Remove feeling_lucky, just read from search result
-#       Don't necessarily need to import google
-#       interactive questions/answers
+# TODO: interactive questions/answers
+#       more answer choice strategy
+#       fix stupid tty color handling
+#       show answer if argv is qid
 import sys
 import re
 import requests
 import html.parser
-from urllib import parse
+import urllib.parse
 import termcolor
 from termcolor import colored
 from bs4 import BeautifulSoup
-from google import google_search
 
-# To deceive google
-google_is_happy_header = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)'
+# google
+google_search_url = 'https://www.google.com/search?ie=UTF-8&q={}'
+google_is_happy_header = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)' # To deceive google
+
 # returns answers from /questions/ also returns body_markdown for q+a
 so_api_filter = '!b1MMEU*.-3EcYn'
 so_api_url = 'https://api.stackexchange.com/2.2/questions/{}?site=stackoverflow&filter={}'
 
-def so_qid_lucky(query):
-    lucky_so_query = google_search(f'site:stackoverflow.com {query}', feeling_lucky=True)
-    res = requests.get(lucky_so_query, headers={'User-Agent': google_is_happy_header})
-    if res.status_code != 200:
-        print(f'Get status_code {res.status_code}!=200 when finding stackoverflow URL', file=sys.stderr)
-        return None
-    lucky_url = res.url
-    if parse.urlsplit(lucky_url).netloc != 'stackoverflow.com':
-        # print(f'Found no lucky stackoverflow.com url\nLink: {lucky_url}', file=sys.stderr)
-        qids = extract_so_questions_from(res)
-        return qids[0] if qids else None
-    if re.search('/questions/(\d+)/', lucky_url):
-        return re.search('/questions/(\d+)/', lucky_url).group(1)
-    else:
-        print(f'Cannot find question id from {lucky_url}', file=sys.stderr)
-        return None
-
-def extract_so_questions_from(response):
-    # copy from socli
-    if 'google' not in parse.urlsplit(response.url).netloc:
-        print(f'Found no google url\nLink: {response.url}', file=sys.stderr)
-        return None
+def google_for_so_questions(query):
+    google_query_url = google_search_url.format(urllib.parse.quote_plus(f'stackoverflow {query}'))
+    response = requests.get(google_query_url, headers={'User-Agent': google_is_happy_header})
+    if response.status_code != 200:
+        print(f'Get status_code {res.status_code}!=200 when searching on google', file=sys.stderr)
+        return []
+    # mod from socli
     soup = BeautifulSoup(response.text, 'html.parser')
     results = soup.find_all('div', class_='g')
-    question_urls = [result.find("a").get("href") for result in results]
-    return [re.search('/questions/(\d+)/', question_url).group(1) for question_url in question_urls]
+    #                   question url                   question title
+    question_results = [(result.find("a").get("href"), re.sub(' - Stack Overflow$', '', result.find("h3", class_="r").get_text())) for result in results]
+    return [q for q in question_results if extract_so_qid_from(q[0])]
+
+def extract_so_qid_from(url):
+    if re.search('/(questions|q)/(\d+)', url):
+        return re.search('/(questions|q)/(\d+)', url).group(2)
+    else:
+        None
 
 def so_qna_in_json(qid):
     so_question_api_url = so_api_url.format(qid, so_api_filter)
@@ -51,19 +45,32 @@ def so_qna_in_json(qid):
     assert res.status_code == 200, f'return code is {res.status_code} while querying {so_question_api_url}'
     return res.json()
 
+def render_so_question_link(question_link, question_title):
+    if sys.stdout.isatty():
+        return f"{colored(question_title, attrs=['bold'])} ({colored(question_link, 'green')})"
+    else:
+        return f"{question_title} ({question_link})"
+
 def render_so_qna(contents):
     question = contents['items'][0]
     question_title = question['title']
     question_link = question['link']
     question_body = html.parser.unescape(question['body_markdown'])
 
-    accepted_answer = [a for a in question['answers'] if a['is_accepted']][0]
+    accepted_answers = [a for a in question['answers'] if a['is_accepted']]
+    if any(accepted_answers):
+        accepted_answer = accepted_answers[0]
+    else:
+        # TODO: handle empty answers
+        #       sort anwser
+        #       'accepted' is wrong name
+        accepted_answer = question['answers'][0]
     accepted_answer_body = html.parser.unescape(accepted_answer['body_markdown'])
 
     # TODO: switch color/non-color in a proper way
     if sys.stdout.isatty():
         rendered_texts = [
-            f"{colored(question_title, attrs=['bold'])} ({colored(question_link, 'green')})",
+            render_so_question_link(question_link, question_title),
             '',
             rendered_md_body(question_body),
             colored('---------- Accepted Answer ----------', 'yellow', attrs=['bold']),
@@ -71,7 +78,7 @@ def render_so_qna(contents):
         ]
     else:
         rendered_texts = [
-            f"{question_title} ({question_link})",
+            render_so_question_link(question_link, question_title),
             '',
             question_body,
             '---------- Accepted Answer ----------',
@@ -107,15 +114,18 @@ def rendered_md_body(body):
 
     return body
 
-
-
 def main():
     query = ' '.join(sys.argv[1:])
-    qid = so_qid_lucky(query)
-    if qid:
+    questions = google_for_so_questions(query)
+    if questions:
+        best_matched_question = questions[0]
+        qid = extract_so_qid_from(best_matched_question[0])
         contents = so_qna_in_json(qid)
         print(render_so_qna(contents))
 
+        print ('---------- Other Questions ----------')
+        for q in questions[1:]:
+            print(render_so_question_link(extract_so_qid_from(q[0]), q[1]))
 
 if __name__ == '__main__':
     main()
