@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # TODO: interactive questions/answers
 #       more answer choice strategy
-#       fix stupid tty color handling
+#       redirect if answer is duplicated?
 #       show answer if argv is qid
+#       warn on low quota
 import sys
 import re
 import requests
@@ -19,6 +20,13 @@ google_is_happy_header = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WO
 # returns answers from /questions/ also returns body_markdown for q+a
 so_api_filter = '!b1MMEU*.-3EcYn'
 so_api_url = 'https://api.stackexchange.com/2.2/questions/{}?site=stackoverflow&filter={}'
+
+def __colored(s, color=None, on_color=None, attrs=None):
+    """tty aware colored wrapper (emm maybe should move side affect out)"""
+    if sys.stdout.isatty():
+        return colored(s, color, on_color, attrs)
+    else:
+        return s
 
 def google_for_so_questions(query):
     google_query_url = google_search_url.format(urllib.parse.quote_plus(f'stackoverflow {query}'))
@@ -46,10 +54,7 @@ def so_qna_in_json(qid):
     return res.json()
 
 def render_so_question_link(question_link, question_title):
-    if sys.stdout.isatty():
-        return f"{colored(question_title, attrs=['bold'])} ({colored(question_link, 'green')})"
-    else:
-        return f"{question_title} ({question_link})"
+    return f"{__colored(question_title, attrs=['bold'])} ({__colored(question_link, 'green')})"
 
 def render_so_qna(contents):
     question = contents['items'][0]
@@ -68,37 +73,29 @@ def render_so_qna(contents):
     accepted_answer_body = html.parser.unescape(accepted_answer['body_markdown'])
 
     # TODO: switch color/non-color in a proper way
-    if sys.stdout.isatty():
-        rendered_texts = [
-            render_so_question_link(question_link, question_title),
-            '',
-            rendered_md_body(question_body),
-            colored('---------- Accepted Answer ----------', 'yellow', attrs=['bold']),
-            rendered_md_body(accepted_answer_body),
-        ]
-    else:
-        rendered_texts = [
-            render_so_question_link(question_link, question_title),
-            '',
-            question_body,
-            '---------- Accepted Answer ----------',
-            accepted_answer_body,
-        ]
-    return u'\n'.join(rendered_texts)
+
+    rendered_texts = [
+        render_so_question_link(question_link, question_title),
+        '',
+        rendered_md_body(question_body),
+        __colored('---------- Accepted Answer ----------', 'yellow', attrs=['bold']),
+        rendered_md_body(accepted_answer_body),
+    ]
+    return '\n'.join(rendered_texts)
 
 def rendered_md_body(body):
     # TODO
     # CAVEAT: Ok, the second highlight within highlight block will remove the effect
     #   probably time to do the real highlighting
     def __rendered_strong(m):
-        return colored(m.group(1), attrs=['bold'])
+        return __colored(m.group(1), attrs=['bold'])
     def __rendered_code(m):
-        green = colored('', 'green').replace(termcolor.RESET, '')
-        return colored(m.group(1).replace(termcolor.RESET, termcolor.RESET+green), 'green')
+        green = __colored('', 'green').replace(termcolor.RESET, '')
+        return __colored(m.group(1).replace(termcolor.RESET, termcolor.RESET+green), 'green')
     def __rendered_quoted_code(m):
-        return '> ' + colored(m.group(1), 'green')
+        return '> ' + __colored(m.group(1), 'green')
     def __rendered_quote(m):
-        return colored('> ', 'yellow')
+        return __colored('> ', 'yellow')
 
     # strong
     body = re.sub(r'\*\*(.*?)\*\*', __rendered_strong, body, flags=re.M)
