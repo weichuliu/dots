@@ -58,10 +58,16 @@ sumup () {
 # pbedit
 pbedit () {
   # Edit clipboard using vim, then save it back
+  # If stdin is pipe, use contents from stdin
   # If stdout is pipe, pbpaste to stdout
   local temporary_buffer="$(mktemp)"
-  pbpaste > "$temporary_buffer"
+  if [[ -p /dev/stdin ]]; then
+    cat -
+  else
+    pbpaste
+  fi > "$temporary_buffer"
   (
+    exec < /dev/tty
     exec &> /dev/tty
     # do no modify the EOF newline
     vim -c 'set nofixendofline' "$temporary_buffer"
