@@ -42,7 +42,7 @@ alias f.='find . | grep'
 alias timeat='date -r'
 
 ## vagrant
-alias ub="VAGRANT_CWD=$HOME/work/vms/xenial vagrant"
+alias ub="VAGRANT_CWD=$HOME/work/vms/bionic vagrant"
 alias centos="VAGRANT_CWD=$HOME/work/vms/centos vagrant"
 
 ## cd

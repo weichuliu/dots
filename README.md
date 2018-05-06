@@ -79,4 +79,4 @@ to have ipython correctly bind the sequence to word jump / history search
 - `sublime-settings`: Sublime Settings (paste them in "Preference: Settings")
 - `sublime-keymap`: Sublime macOS keymap, fixes `Option` key functions (paste them in "Preference: Key Bindings")
 - `ssh_config`: If you want, you can link it to ~/.ssh/config
-- `ssh_config_vagrant`: linked from ~/.ssh/config.d/vagrant, to work with [xenial box](https://www.github.com/weichuliu/xenial)
+- `ssh_config_vagrant`: linked from ~/.ssh/config.d/vagrant, to work with [bionic box](https://www.github.com/weichuliu/bionic)
