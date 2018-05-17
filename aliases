@@ -26,8 +26,8 @@ alias force='push force'
 ## use fancy git diff to diff files
 alias difff='git diff --no-index'
 
-## ack
-alias ack='ack --nogroup --color-match=bright_red --color-filename=magenta --color-lineno=green'
+## ack=rg ^_^
+alias ack='rg --no-heading'
 
 ## yaml/json
 alias y2j='python3 -c "import json, yaml, sys; yamlfile = sys.stdin if len(sys.argv) == 1 else open(sys.argv[1]); print(json.dumps(yaml.load(yamlfile.read())))"'

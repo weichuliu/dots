@@ -36,6 +36,7 @@ pyenv
 python
 rbenv
 readline
+ripgrep
 rlwrap
 ruby
 ruby-build
