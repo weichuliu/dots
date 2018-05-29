@@ -18,8 +18,17 @@ google_is_happy_header = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WO
 
 # returns answers from /questions/ also returns body_markdown for q+a
 so_api_filter = '!b1MMEU*.-3EcYn'
-so_api_url = 'https://api.stackexchange.com/2.2/questions/{}?site=stackoverflow&filter={}'
+so_api_url = 'https://api.stackexchange.com/2.2/questions/{}?site={}&filter={}'
 
+# only programing related stackexchange sites
+stackexchange_sites = {
+    'stackoverflow': 'stackoverflow.com',
+    'serverfault': 'serverfault.com',
+    'superuser': 'superuser.com',
+    'askubuntu': 'askubuntu.com',
+    'apple': 'apple.stackexchange.com',
+    'unix': 'unix.stackexchange.com',
+}
 
 def colored_on_tty_stdout(s, color=None, on_color=None, attrs=None):
     """tty aware colored wrapper"""
@@ -42,18 +51,24 @@ def google_for_so_questions(query):
     soup = BeautifulSoup(response.text, 'html.parser')
     results = soup.find_all('div', class_='g')
     #                   question url                   question title
-    question_results = [(result.find("a").get("href"), re.sub(' - Stack Overflow$', '', result.find("h3", class_="r").get_text())) for result in results]
+    question_results = [(result.find("a").get("href"), result.find("h3", class_="r").get_text()) for result in results]
     return [q for q in question_results if extract_so_qid_from(q[0])]
 
 def extract_so_qid_from(url):
-    # TODO: support other websites. Now strict to stackoverflow
-    if 'stackoverflow' in url and re.search('/(questions|q)/(\d+)', url):
-        return re.search('/(questions|q)/(\d+)', url).group(2)
-    else:
-        None
+    netloc = urllib.parse.urlsplit(url).netloc
+    stackexchange_sites_pattern = '|'.join(stackexchange_sites.keys())
+    stackexchange_sites_reversed = {v: k for k, v in stackexchange_sites.items()}
 
-def so_qna_in_json(qid):
-    so_question_api_url = so_api_url.format(qid, so_api_filter)
+    if re.search(stackexchange_sites_pattern, netloc) and re.search('/(questions|q)/(\d+)', url):
+        matched_domain = re.search(stackexchange_sites_pattern, netloc).group(0)
+        matched_site = stackexchange_sites_reversed.get(matched_domain, None)
+        qid = re.search('/(questions|q)/(\d+)', url).group(2)
+        return matched_domain, qid
+    else:
+        return None
+
+def so_qna_in_json(site, qid):
+    so_question_api_url = so_api_url.format(qid, site, so_api_filter)
     res = requests.get(so_question_api_url)
     assert res.status_code == 200, f'return code is {res.status_code} while querying {so_question_api_url}'
     return res.json()
@@ -118,23 +133,32 @@ def rendered_md_body(body):
 
 def main():
     self_name = sys.argv[0].split('/')[-1]
-    # when --show <qid>, directly show
-    if len(sys.argv) >= 3 and sys.argv[1] == '--show':
-        qid = int(sys.argv[2])
+    # when --show <site>.<qid>, directly show
+    # <site> defaults to stackoverflow
+    if sys.argv[1] == '--show':
+        show_arg = '.'.join(sys.argv[2:])
+        if re.match(r'^\d+$', show_arg):
+            stackexchange_site, qid = 'stackoverflow', show_arg
+        elif re.match(r'^\w+\.\d+$', show_arg):
+            stackexchange_site, qid = show_arg.split('.')
+        else:
+            print(f'Cannot recognize "{show_arg}". It has to be like a "<qid>" or "<site>.<qid>"', file=sys.stderr)
+            exit(1)
+        assert stackexchange_site in stackexchange_sites
         questions = []
     else:
         query = ' '.join(sys.argv[1:])
         questions = google_for_so_questions(query)
         if questions:
             best_matched_question = questions[0]
-            qid = extract_so_qid_from(best_matched_question[0])
+            stackexchange_site, qid = extract_so_qid_from(best_matched_question[0])
 
-    contents = so_qna_in_json(qid)
+    contents = so_qna_in_json(stackexchange_site, qid)
     print(render_so_qna(contents))
 
     print ('---------- Other Questions ----------')
     for q in questions[1:]:
-        print(render_so_question_link(f'{self_name} --show {extract_so_qid_from(q[0])}', q[1]))
+        print(render_so_question_link(f'{self_name} --show {".".join(extract_so_qid_from(q[0]))}', q[1]))
 
 if __name__ == '__main__':
     main()
