@@ -50,6 +50,10 @@ sack () {
   subl $(ack -l $@)
 }
 
+# awk print column
+awkp () {
+  awk -v column="$1" '{print $column}' -
+}
 # sum up the $1 column
 sumup () {
   awk -v column="$1" '{a += $column} END {print a}' -
