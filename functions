@@ -81,6 +81,18 @@ pbedit () {
   # If stdout is a pipe
   [[ -p /dev/stdout ]] && pbpaste
 }
+pbedit-subl () {
+  # Edit clipboard using subl, then save it back
+  # If stdin is pipe, use contents from stdin
+  # If stdout is pipe, pbpaste to stdout
+  if [[ -p /dev/stdin ]]; then
+    cat -
+  else
+    pbpaste
+  fi | subl - | perl -pe 'chomp if eof' | pbcopy
+  # If stdout is a pipe
+  [[ -p /dev/stdout ]] && pbpaste
+}
 
 # A nice hack to copy current READLINE into pasteboard
 # This requires bash 4.x (/usr/local/bin/bash)
