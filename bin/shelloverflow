@@ -152,6 +152,9 @@ def main():
         if questions:
             best_matched_question = questions[0]
             stackexchange_site, qid = extract_so_qid_from(best_matched_question[0])
+        else:
+            print(f'No useful result for "{query}". Sorry.', file=sys.stderr)
+            exit(1)
 
     contents = so_qna_in_json(stackexchange_site, qid)
     print(render_so_qna(contents))
