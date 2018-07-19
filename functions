@@ -42,12 +42,10 @@ push () (
 
 ## subl
 sf. () {
-  echo "$(f. $@)"
-  subl $(f. $@)
+  f. $@ | tee >(tr '\n' '\0' | xargs -0 subl)
 }
 sack () {
-  echo "$(ack -l $@)"
-  subl $(ack -l $@)
+  ack -l $@ | tee >(tr '\n' '\0' | xargs -0 subl)
 }
 
 # awk print column
