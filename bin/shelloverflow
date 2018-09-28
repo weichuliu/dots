@@ -50,8 +50,13 @@ def google_for_so_questions(query):
     # mod from socli
     soup = BeautifulSoup(response.text, 'html.parser')
     results = soup.find_all('div', class_='g')
-    #                   question url                   question title
-    question_results = [(result.find("a").get("href"), result.find("h3", class_="r").get_text()) for result in results]
+    try:
+        #                   question url                   question title
+        question_results = [(result.find("a").get("href"), result.find("h3", class_=re.compile('r|LC20lb')).get_text()) for result in results]
+    except AttributeError:
+        print(response.text, file=open('/tmp/shelloverflow_debug', 'w'))
+        print('Failed to extract search results from google. Saved html to /tmp/shelloverflow_debug for debugging', file=sys.stderr)
+        exit(1)
     return [q for q in question_results if extract_so_qid_from(q[0])]
 
 def extract_so_qid_from(url):
@@ -77,33 +82,54 @@ def render_so_question_link(question_link, question_title):
     return f"{colored_on_tty_stdout(question_title, attrs=['bold'])} ({colored_on_tty_stdout(question_link, 'green')})"
 
 def render_so_qna(contents):
+    def unescape_body_markdown(x):
+        'unescape, CRLF to LF'
+        return html.parser.unescape(x).replace('\r\n', '\n')
     question = contents['items'][0]
     question_title = question['title']
     question_link = question['link']
-    question_body = html.parser.unescape(question['body_markdown'])
+    question_body = unescape_body_markdown(question['body_markdown'])
 
-    accepted_answers = [a for a in question['answers'] if a['is_accepted']]
-    if any(accepted_answers):
-        accepted_answer = accepted_answers[0]
+    if question['is_answered']:
+        answers = question['answers']
+
+        top_voted_answer = max(answers, key=lambda a:a['score'])
+        top_voted_answer_id = top_voted_answer['answer_id']
+        top_voted_answer_vote = top_voted_answer['score']
+        top_voted_answer_body = unescape_body_markdown(top_voted_answer['body_markdown'])
+
+        accepted_answer = [a for a in answers if a['is_accepted']][0] if any(a['is_accepted'] for a in answers) else top_voted_answer
+        accepted_answer_id = accepted_answer['answer_id']
+        accepted_answer_vote = accepted_answer['score']
+        accepted_answer_body = unescape_body_markdown(accepted_answer['body_markdown'])
     else:
-        # TODO: handle empty answers
-        #       sort anwser
-        #       'accepted' is wrong name
-        accepted_answer = question['answers'][0]
-    accepted_answer_body = html.parser.unescape(accepted_answer['body_markdown'])
+        # No answers at all
+        accepted_answer_id = top_voted_answer_id = 0
+        accepted_answer_vote = top_voted_answer_vote = 0
+        accepted_answer_body = top_voted_answer_body = '(There is no answer for this question)'
 
-    # TODO: switch color/non-color in a proper way
+    if top_voted_answer_id != accepted_answer_id and accepted_answer_vote < top_voted_answer_vote:
+        rendered_answers = [
+            colored_on_tty_stdout(f"---------- Accepted Answer (^ {accepted_answer_vote}) ----------", 'yellow', attrs=['bold']),
+            rendered_body(accepted_answer_body),
+            colored_on_tty_stdout(f"---------- Top Voted Answer (^ {top_voted_answer_vote}) ----------", 'yellow', attrs=['bold']),
+            rendered_body(top_voted_answer_body),
+        ]
+    else:
+        rendered_answers = [
+            colored_on_tty_stdout(f"---------- Best Answer (^ {accepted_answer_vote}) ----------", 'yellow', attrs=['bold']),
+            rendered_body(accepted_answer_body),
+        ]
 
     rendered_texts = [
         render_so_question_link(question_link, question_title),
         '',
-        rendered_md_body(question_body),
-        colored_on_tty_stdout('---------- Accepted Answer ----------', 'yellow', attrs=['bold']),
-        rendered_md_body(accepted_answer_body),
+        rendered_body(question_body),
+        *rendered_answers,
     ]
     return '\n'.join(rendered_texts)
 
-def rendered_md_body(body):
+def rendered_body(body):
     # TODO
     # CAVEAT: Ok, the second highlight within highlight block will remove the effect
     #   probably time to do the real highlighting
@@ -159,9 +185,10 @@ def main():
     contents = so_qna_in_json(stackexchange_site, qid)
     print(render_so_qna(contents))
 
-    print ('---------- Other Questions ----------')
-    for q in questions[1:]:
-        print(render_so_question_link(f'{self_name} --show {".".join(extract_so_qid_from(q[0]))}', q[1]))
+    if questions:
+        print(colored_on_tty_stdout('---------- Other Questions ----------', attrs=['bold']))
+        for q in questions[1:]:
+            print(render_so_question_link(f'{self_name} --show {".".join(extract_so_qid_from(q[0]))}', q[1]))
 
 if __name__ == '__main__':
     main()
