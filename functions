@@ -2,7 +2,7 @@
 
 ## git
 gdifff () { git diff --color "$@" | diff-so-fancy; }
-prune () (
+prune () {(
   set -euo pipefail
 
   remote_repo="${remote_repo:-origin}"
@@ -15,8 +15,8 @@ prune () (
   fi
   echo $(tput setaf 6)git $git_action $remote_repo --prune$(tput sgr0)
   git $git_action $remote_repo --prune
-)
-push () (
+)}
+push () {(
   set -euo pipefail
 
   remote_repo="${remote_repo:-origin}"
@@ -38,7 +38,7 @@ push () (
   read -p "[type 42 to continue] " THE_answer
   [[ "${THE_answer}" = "42" ]]
   $cmd $branch_name
-)
+)}
 
 ## subl
 sf. () {
@@ -55,6 +55,10 @@ awkp () {
 # sum up the $1 column
 sumup () {
   awk -v column="$1" '{a += $column} END {print a}' -
+}
+# Prefix timestamp on stdin
+prefix-timestamp () {
+  ruby -ne 'printf "%.3f %s", Time.now, $_' -
 }
 
 # pbedit
