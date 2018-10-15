@@ -62,7 +62,7 @@ prefix-timestamp () {
 }
 # Calculate delta (intervals) between rows of numbers
 delta () {
-  awk 'BEGIN {last=0} {delta[NR]=$1-last; last=$1; print delta[NR]}' -
+  awk -v column="$1" 'BEGIN {last=0} {print $1-last; last=$1}' -
 }
 
 # pbedit
