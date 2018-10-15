@@ -4,4 +4,8 @@
   { "keys": ["alt+d"], "command": "delete_word", "args": { "forward": true, "sub_words": true } },
   { "keys": ["alt+u"], "command": "upper_case" },
   { "keys": ["alt+l"], "command": "lower_case" },
+  { "keys": ["home"], "command": "move_to", "args": {"to": "bol"} },
+  { "keys": ["end"], "command": "move_to", "args": {"to": "eol"} },
+  { "keys": ["shift+end"], "command": "move_to", "args": {"to": "eol", "extend": true} },
+  { "keys": ["shift+home"], "command": "move_to", "args": {"to": "bol", "extend": true } },
 ]
