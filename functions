@@ -60,6 +60,10 @@ sumup () {
 prefix-timestamp () {
   ruby -ne 'printf "%.3f %s", Time.now, $_' -
 }
+# Calculate delta (intervals) between rows of numbers
+delta () {
+  awk 'BEGIN {last=0} {delta[NR]=$1-last; last=$1; print delta[NR]}' -
+}
 
 # pbedit
 pbedit () {
