@@ -22,11 +22,10 @@ push () {(
   remote_repo="${remote_repo:-origin}"
   branch_name="$(git rev-parse --abbrev-ref HEAD)"
 
-  [[ "${branch_name}" =~ ^(master|develop)$ ]] &&
-    echo "Cannot push to master or develop" &&
-    return 1
-
   if [ "${1:-}" == "force" ]; then
+    [[ "${branch_name}" =~ ^(master|develop)$ ]] &&
+      echo "Cannot force-push to master or develop" >&2 &&
+      false
     cmd="git push $remote_repo --force-with-lease"
     color_cmd="git push $remote_repo $(tput setaf 1)--force-with-lease $(tput setaf 2)$branch_name$(tput sgr0)"
   else
