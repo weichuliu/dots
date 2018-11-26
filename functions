@@ -60,8 +60,8 @@ delta () {
   awk -F "${FS:- }" -v column="$1" 'BEGIN {last=0} {print $column-last; last=$column}' -
 }
 # Prefix timestamp on stdin
-prefix-timestamp () {
-  ruby -ne 'BEGIN{startt=Time.now}; printf "%.3f(%.3f) %s", Time.now, Time.now-startt, $_' -
+timestamp () {
+  ruby -ne 'BEGIN{startt=Time.now; trap("SIGINT"){}}; printf "%d(%.3f) %s", Time.now, Time.now-startt, $_' -
 }
 
 # A very simple implementation of watch
