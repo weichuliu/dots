@@ -50,19 +50,19 @@ sack () {
 
 # awk print column
 awkp () {
-  awk -v column="$1" '{print $column}' -
+  awk -F "${FS:- }" -v column="$1" '{print $column}' -
 }
 # sum up the $1 column
 sumup () {
-  awk -v column="$1" '{a += $column} END {print a}' -
+  awk -F "${FS:- }" -v column="$1" '{a += $column} END {print a}' -
 }
 # Prefix timestamp on stdin
 prefix-timestamp () {
-  ruby -ne 'printf "%.3f %s", Time.now, $_' -
+  ruby -ne 'BEGIN{startt=Time.now}; printf "%.3f(%.3f) %s", Time.now, Time.now-startt, $_' -
 }
 # Calculate delta (intervals) between rows of numbers
 delta () {
-  awk -v column="$1" 'BEGIN {last=0} {print $column-last; last=$column}' -
+  awk -F "${FS:- }" -v column="$1" 'BEGIN {last=0} {print $column-last; last=$column}' -
 }
 
 # pbedit
