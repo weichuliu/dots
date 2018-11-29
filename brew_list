@@ -15,6 +15,7 @@ git
 glib
 gmp
 go
+grep
 htop
 httpie
 jq

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+## ggrep
+alias grep="$(which -s ggrep && echo g)"'grep --color=auto'
+
 ## ls
 alias ll='ls -alF'
 alias la='ls -A'

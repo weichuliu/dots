@@ -73,6 +73,12 @@ dots $ ln -s "$(pwd)/ipython_startup_keybindings.py" ~/.ipython/profile_default/
 
 to have ipython correctly bind the sequence to word jump / history search
 
+#### GNU grep
+
+I tended not to use GNU tools e.g. coreutils mixed with BSD tools brought by macOS, because it may introduce confusing behaviors.
+
+However I encountered a shocking [behavior](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=201650) in macOS version `grep` which is fixed in latest GNU version. So I decided to switch to `ggrep`. GNU grep is installed by Homebrew and is aliased as `grep` here.
+
 ## Other files
 
 - `brew_list`: Softwares I installed with Homebrew

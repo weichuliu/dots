@@ -8,7 +8,6 @@ export HISTFILESIZE=50000
 
 ## colored ls/grep
 export CLICOLOR=true
-export GREP_OPTIONS="--color=auto"
 
 ## PS1!
 PS1='\[\033[1;32m\]\u \[\033[1;34m\]\w\[\033[0m\]$(__git_ps1) \$ '
