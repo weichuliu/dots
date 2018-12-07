@@ -25,6 +25,7 @@ alias develop='git checkout develop'
 alias rcont='git rebase --continue'
 alias mcont='git merge --continue'
 alias force='push force'
+alias prune-rebase='prune && git rebase origin/master'
 
 ## use fancy git diff to diff files
 alias difff='git diff --no-index'
