@@ -58,6 +58,9 @@ awkp () {
 sumup () {
   awk -F "${FS:- }" -v column="$1" '{a += $column} END {print a}' -
 }
+average () {
+  awk -F "${FS:- }" -v column="$1" '{a += $column} END {print a/NR}' -
+}
 # Calculate delta (intervals) between rows of numbers
 delta () {
   awk -F "${FS:- }" -v column="$1" 'BEGIN {last=0} {print $column-last; last=$column}' -
