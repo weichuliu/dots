@@ -40,15 +40,12 @@ push () {(
 )}
 
 ## subl
-sf. () {
-  f. $@ | tee >(tr '\n' '\0' | xargs -0 subl)
-}
-sack () {
-  ack -l $@ | tee >(tr '\n' '\0' | xargs -0 subl)
-}
-sgdiff () {
-  git diff --name-only $@ | tee >(cd "$(git rev-parse --show-toplevel)"; tr '\n' '\0' | xargs -0 subl)
-}
+sf. () { f. $@ | tee >(tr '\n' '\0' | xargs -0 subl); }
+snf. () { f. $@ | tee >(tr '\n' '\0' | xargs -0 subl --new-window); }
+sack () { ack -l $@ | tee >(tr '\n' '\0' | xargs -0 subl); }
+snack () { ack -l $@ | tee >(tr '\n' '\0' | xargs -0 subl --new-window); }
+sgdiff () { git diff --name-only $@ | tee >(cd "$(git rev-parse --show-toplevel)"; tr '\n' '\0' | xargs -0 subl); }
+sngdiff () { git diff --name-only $@ | tee >(cd "$(git rev-parse --show-toplevel)"; tr '\n' '\0' | xargs -0 subl --new-window); }
 
 # awk print column
 awkp () {
