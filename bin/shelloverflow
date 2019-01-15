@@ -52,7 +52,7 @@ def google_for_so_questions(query):
     results = soup.find_all('div', class_='g')
     try:
         #                   question url                   question title
-        question_results = [(result.find("a").get("href"), result.find("h3", class_=re.compile('r|LC20lb')).get_text()) for result in results]
+        question_results = [(result.find("a").get("href"), result.find("h3", class_=re.compile('r|LC20lb')).get_text()) for result in results if result.find("h3", class_=re.compile('r|LC20lb'))]
     except AttributeError:
         print(response.text, file=open('/tmp/shelloverflow_debug', 'w'))
         print('Failed to extract search results from google. Saved html to /tmp/shelloverflow_debug for debugging', file=sys.stderr)
