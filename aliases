@@ -43,7 +43,7 @@ alias ccat='pygmentize -g'
 alias weather='curl wttr.in/tokyo'
 alias soniq='sort | uniq'
 alias f.='find . | grep'
-alias histgrep='find . | grep'
+alias histgrep='history | grep'
 alias timeat='date -r'
 
 ## vagrant
