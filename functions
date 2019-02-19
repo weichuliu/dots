@@ -119,6 +119,14 @@ if grep -q -e '^4' -e '^5' <<<$BASH_VERSION ; then
   }
   # Bind to 'Ctrl-x' 'c' seq
   bind -x '"\C-xc":__copyline'
+
+  __evalline () {
+    local readline_line_buffer
+    readline_line_buffer=$( eval "$READLINE_LINE" | tr '\n' ' ' )
+    [[ -n "$readline_line_buffer" ]] && READLINE_LINE="${readline_line_buffer}"
+  }
+  # Bind to 'Ctrl-x' 'e' seq
+  bind -x '"\C-xe":__evalline'
 fi
 
 # Himitsu ;-)
