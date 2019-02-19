@@ -59,6 +59,13 @@ The `inputrc` works with `iTerm2`'s `xterm` Key Mappings:
 
 `iterm2_shell_integration` is automatically loaded from `dots` directory, for convenience
 
+#### Awesome Secret Shortcuts
+
+There are two convenient keybindings:
+
+- `C-x c` will copy the current command line buffer into pasteboard.
+- `C-x e` will expand the current command into its result, similar to built-in `Ctrl-Alt-e`
+
 #### `pyenv` and `rbenv`
 
 `Dotfiles` expects you use `pyenv`/`rbenv` to manage `Python`/`Ruby` versions. They are installed by `Homebrew`, while actual `Python`/`Ruby` packages/libraries should be installed and managed manually using these two commands
