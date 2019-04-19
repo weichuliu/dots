@@ -47,6 +47,10 @@ snack () { ack -l $@ | tee >(tr '\n' '\0' | xargs -0 subl --new-window); }
 sgdiff () { git diff --name-only $@ | tee >(cd "$(git rev-parse --show-toplevel)"; tr '\n' '\0' | xargs -0 subl); }
 sngdiff () { git diff --name-only $@ | tee >(cd "$(git rev-parse --show-toplevel)"; tr '\n' '\0' | xargs -0 subl --new-window); }
 
+# unique and preserve input order stackoverflow.com/q/1444406
+uniq2 () {
+  awk '!seen[$0]++' ${@}
+}
 # awk print column
 awkp () {
   awk -F "${FS:- }" -v column="$1" '{print $column}' -
