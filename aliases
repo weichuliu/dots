@@ -34,7 +34,7 @@ alias difff='git diff --no-index'
 alias ack='rg --no-heading'
 
 ## yaml/json
-alias y2j='python3 -c "import json, yaml, sys; yamlfile = sys.stdin if len(sys.argv) == 1 else open(sys.argv[1]); print(json.dumps(yaml.load(yamlfile.read())))"'
+alias y2j='python3 -c "import json, yaml, sys; yamlfile = sys.stdin if len(sys.argv) == 1 else open(sys.argv[1]); print(json.dumps(yaml.load(yamlfile.read(), Loader=yaml.SafeLoader)))"'
 alias j2y='python3 -c "import json, yaml, sys; jsonfile = sys.stdin if len(sys.argv) == 1 else open(sys.argv[1]); print(yaml.dump(json.loads(jsonfile.read()), default_flow_style=False))"'
 
 ## ad-hoc
