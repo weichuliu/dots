@@ -48,6 +48,7 @@ alias soniq='sort | uniq'
 alias f.='find . | grep'
 alias histgrep='history | grep'
 alias timeat='date -r'
+alias pgrepp='pgrep -afli'
 
 ## vagrant
 alias ub="VAGRANT_CWD=$HOME/work/vms/bionic vagrant"
