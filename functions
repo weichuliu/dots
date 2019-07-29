@@ -114,15 +114,24 @@ pbedit-subl () {
   [[ -p /dev/stdout ]] && pbpaste
 }
 
-# A nice hack to copy current READLINE into pasteboard
-# This requires bash 4.x (/usr/local/bin/bash)
-# Ref: stackoverflow.com/questions/14177700
+
+# Convenient Functions that utilize READLINE_LINE
+# This requires bash 4.x+ (/usr/local/bin/bash)
 if grep -q -e '^4' -e '^5' <<<$BASH_VERSION ; then
+  # A nice hack to copy current READLINE into pasteboard
+  # Ref: stackoverflow.com/questions/14177700
   __copyline () {
     printf %s "$READLINE_LINE" | pbcopy
   }
   # Bind to 'Ctrl-x' 'c' seq
   bind -x '"\C-xc":__copyline'
+
+  # A nice iTerm2 version __copyline
+  # This works only with iTerm2, but it copies remote shells.
+  # Not binding to shortcuts
+  __itermcopyline () {
+    printf "\e]1337;Copy=:%s\x07" "$(printf %s "$READLINE_LINE" | base64)"
+  }
 
   __evalline () {
     local readline_line_buffer
