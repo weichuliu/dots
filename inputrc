@@ -27,3 +27,6 @@ set show-all-if-ambiguous on
 # Alt P/N
 "\ep": history-search-backward
 "\en": history-search-forward
+
+# Shift+Tab: Expand alias
+"\e[Z": alias-expand-line
