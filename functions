@@ -115,7 +115,7 @@ pbedit-subl () {
 }
 
 
-# Convenient Functions that utilize READLINE_LINE
+# Convenient Functions that manipulate READLINE_LINE
 # This requires bash 4.x+ (/usr/local/bin/bash)
 if grep -q -e '^4' -e '^5' <<<$BASH_VERSION ; then
   # A nice hack to copy current READLINE into pasteboard
@@ -133,6 +133,7 @@ if grep -q -e '^4' -e '^5' <<<$BASH_VERSION ; then
     printf "\e]1337;Copy=:%s\x07" "$(printf %s "$READLINE_LINE" | base64)"
   }
 
+  # Replace the current READLINE buffer with its evaluation.
   __evalline () {
     local readline_line_buffer
     readline_line_buffer=$( eval "$READLINE_LINE" | tr '\n' ' ' )
@@ -140,6 +141,13 @@ if grep -q -e '^4' -e '^5' <<<$BASH_VERSION ; then
   }
   # Bind to 'Ctrl-x' 'e' seq
   bind -x '"\C-xe":__evalline'
+
+  # Append pasteboard to current readline buffer
+  __appendpasteboard () {
+    READLINE_LINE="$READLINE_LINE $(pbpaste-join | tr '\n' ' ')"
+  }
+  # Bind to 'Ctrl-x' 'p' seq
+  bind -x '"\C-xp":__appendpasteboard'
 fi
 
 # Himitsu ;-)
