@@ -142,12 +142,12 @@ if grep -q -e '^4' -e '^5' <<<$BASH_VERSION ; then
   # Bind to 'Ctrl-x' 'e' seq
   bind -x '"\C-xe":__evalline'
 
-  # Append pasteboard to current readline buffer
-  __appendpasteboard () {
-    READLINE_LINE="$READLINE_LINE $(pbpaste-join | tr '\n' ' ')"
+  # Insert pasteboard as one line
+  __insertpb () {
+    READLINE_LINE="${READLINE_LINE:0:READLINE_POINT}$(pbpaste-join | tr '\n' ' ')${READLINE_LINE:READLINE_POINT}"
   }
   # Bind to 'Ctrl-x' 'p' seq
-  bind -x '"\C-xp":__appendpasteboard'
+  bind -x '"\C-xp":__insertpb'
 fi
 
 # Himitsu ;-)
