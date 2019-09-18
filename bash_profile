@@ -1,6 +1,8 @@
 #!/bin/bash
-# Auto completion
-# Replace $(brew --prefix) to accelerate startup
+# Auto completion with bash-completion@2
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && \
+    BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d" . "/usr/local/etc/profile.d/bash_completion.sh"
+# Old bash-completion for backward compatibility
 [[ -f /usr/local/etc/bash_completion ]] && . /usr/local/etc/bash_completion
 
 # Find __dots_dir. Will be unset after sourcing
