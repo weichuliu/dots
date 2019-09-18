@@ -64,7 +64,12 @@ The `inputrc` works with `iTerm2`'s `xterm` Key Mappings:
 There are two convenient keybindings:
 
 - `C-x c` will copy the current command line buffer into pasteboard.
+- `C-x p` will auto join current pasteboard and insert to command line buffer.
 - `C-x e` will expand the current command into its result, similar to built-in `Ctrl-Alt-e`
+
+#### `bash-completion@2`
+
+The `bash-completion@2` claims to be a faster and better debian `bash-completion` and this repository supports it. To use `bash-completion@2`, just `brew uninstall bash-completion; brew install bash-completion@2`
 
 #### `pyenv` and `rbenv`
 
