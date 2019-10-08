@@ -25,5 +25,6 @@ export PATH=$PATH:"$HOME/go/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 
 
-# iTerm2 set pane_id
-pane_id="$(grep -oE "p\d+:" <<<"${ITERM_SESSION_ID:-}" | grep -oE "\d+" | awk "{print \$0 + 1}")"
+# iTerm2 set pane_id. ITERM_SESSION_ID= w<id>t<id>p<id>:<UUID>
+pane_id="${ITERM_SESSION_ID%%:*}" # cut ":<UUID>"
+pane_id="${pane_id#*p}" # cut "w.t.p"
