@@ -28,3 +28,5 @@ export PATH="$PATH:$HOME/.cargo/bin"
 # iTerm2 set pane_id. ITERM_SESSION_ID= w<id>t<id>p<id>:<UUID>
 pane_id="${ITERM_SESSION_ID%%:*}" # cut ":<UUID>"
 pane_id="${pane_id#*p}" # cut "w.t.p"
+pane_id=$((pane_id + 1)) # +1
+
