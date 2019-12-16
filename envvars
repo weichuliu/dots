@@ -25,4 +25,4 @@ export PATH=$PATH:"$HOME/go/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 
 # iTerm2 set pane_id. ITERM_SESSION_ID= w<id>t<id>p<id>:<UUID>
-pane_id=$(awk '{split($0, a, "p"); print(a[2]+1)}' <<<"${ITERM_SESSION_ID%%:*}")
+pane_id=${pane_id:-$(awk '{split($0, a, "p"); print(a[2]+1)}' <<<"${ITERM_SESSION_ID%%:*}")}
