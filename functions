@@ -144,10 +144,17 @@ if grep -q -e '^4' -e '^5' <<<$BASH_VERSION ; then
 
   # Insert pasteboard as one line
   __insertpb () {
-    READLINE_LINE="${READLINE_LINE:0:READLINE_POINT}$(pbpaste-join | tr '\n' ' ')${READLINE_LINE:READLINE_POINT}"
+    local delimiter="${1:- }"
+    READLINE_LINE="${READLINE_LINE:0:READLINE_POINT}$(pbpaste | tr '\n' "$delimiter")${READLINE_LINE:READLINE_POINT}"
+  }
+  __insertpbd () {
+    local delimiter
+    read -n1 delimiter
+    __insertpb "$delimiter"
   }
   # Bind to 'Ctrl-x' 'p' seq
   bind -x '"\C-xp":__insertpb'
+  bind -x '"\C-xP":__insertpbd'
 fi
 
 # Himitsu ;-)
