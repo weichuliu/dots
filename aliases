@@ -47,7 +47,7 @@ alias weather='curl wttr.in/tokyo'
 alias soniq='sort | uniq'
 alias f.='find . -path ./.git -prune -o -print | grep'
 alias f..='find . | grep'
-alias histgrep='history | grep'
+alias histgrep='history | ack'
 alias timeat='date -r'
 alias pgrepp='pgrep -afli'
 

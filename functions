@@ -118,43 +118,49 @@ pbedit-subl () {
 # Convenient Functions that manipulate READLINE_LINE
 # This requires bash 4.x+ (/usr/local/bin/bash)
 if grep -q -e '^4' -e '^5' <<<$BASH_VERSION ; then
-  # A nice hack to copy current READLINE into pasteboard
-  # Ref: stackoverflow.com/questions/14177700
   __copyline () {
+    # A nice hack to copy current READLINE into pasteboard
+    # Ref: stackoverflow.com/questions/14177700
     printf %s "$READLINE_LINE" | pbcopy
   }
-  # Bind to 'Ctrl-x' 'c' seq
-  bind -x '"\C-xc":__copyline'
-
-  # A nice iTerm2 version __copyline
-  # This works only with iTerm2, but it copies remote shells.
-  # Not binding to shortcuts
   __itermcopyline () {
+    # A nice iTerm2 version __copyline
+    # This works only with iTerm2, but it copies remote shells.
+    # Not binding to shortcuts
     printf "\e]1337;Copy=:%s\x07" "$(printf %s "$READLINE_LINE" | base64)"
   }
+  # Bind to 'C-x,c'
+  bind -x '"\C-xc":__copyline'
 
-  # Replace the current READLINE buffer with its evaluation.
   __evalline () {
+    # Replace the current READLINE buffer with its evaluation.
     local readline_line_buffer
     readline_line_buffer=$( eval "$READLINE_LINE" | tr '\n' ' ' )
     [[ -n "$readline_line_buffer" ]] && READLINE_LINE="${readline_line_buffer}"
   }
-  # Bind to 'Ctrl-x' 'e' seq
+  # Bind to 'C-x,e'
   bind -x '"\C-xe":__evalline'
 
-  # Insert pasteboard as one line
   __insertpb () {
+    # Insert pasteboard as one line
     local delimiter="${1:- }"
     READLINE_LINE="${READLINE_LINE:0:READLINE_POINT}$(pbpaste | tr '\n' "$delimiter")${READLINE_LINE:READLINE_POINT}"
   }
   __insertpbd () {
+    # Insert pasteboard as one line with customized delimiter
     local delimiter
     read -n1 delimiter
     __insertpb "$delimiter"
   }
-  # Bind to 'Ctrl-x' 'p' seq
+  # Bind to 'C-x,p'
   bind -x '"\C-xp":__insertpb'
   bind -x '"\C-xP":__insertpbd'
+
+  __historyfgrep () {
+    history | fgrep "$READLINE_LINE" | tail -5
+  }
+  # Bind to 'C-h,p'
+  bind -x '"\C-xh":__historyfgrep'
 fi
 
 # Himitsu ;-)
