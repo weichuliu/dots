@@ -97,4 +97,4 @@ However I encountered a shocking [behavior](https://bugs.freebsd.org/bugzilla/sh
 - `sublime-settings`: Sublime Settings (paste them in "Preference: Settings")
 - `sublime-keymap`: Sublime macOS keymap, fixes `Option` key functions (paste them in "Preference: Key Bindings")
 - `ssh_config`: If you want, you can link it to ~/.ssh/config
-- `ssh_config_vagrant`: linked from ~/.ssh/config.d/vagrant, to work with [bionic box](https://www.github.com/weichuliu/bionic)
+- `ssh_config_vagrant`: linked from ~/.ssh/config.d/vagrant, to work with [focal box](https://www.github.com/weichuliu/focal)
