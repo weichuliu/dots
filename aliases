@@ -34,7 +34,7 @@ alias prune-rebase='prune && git rebase origin/master'
 alias difff='git diff --no-index'
 
 ## ack=rg ^_^
-alias ack='rg --no-heading'
+alias ack='rg --sort-files --no-heading'
 
 ## yaml/json
 alias y2j='python3 -c "import json, yaml, sys; yamlfile = sys.stdin if len(sys.argv) == 1 else open(sys.argv[1]); print(json.dumps(yaml.safe_load(yamlfile.read())))"'
