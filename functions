@@ -13,8 +13,8 @@ prune () (
   else
     git_action=fetch
   fi
-  echo $(tput setaf 6)git $git_action $remote_repo --prune$(tput sgr0)
-  git $git_action $remote_repo --prune
+  echo $(tput setaf 6)git $git_action $remote_repo --prune --autostash$(tput sgr0)
+  git $git_action $remote_repo --prune --autostash
 )
 push () (
   set -euo pipefail
