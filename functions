@@ -9,12 +9,12 @@ prune () (
   branch_name="$(git rev-parse --abbrev-ref HEAD)"
 
   if [[ "${branch_name}" =~ ^(master|develop)$ ]]; then
-    git_action=pull
+    git_action='pull --prune --autostash'
   else
-    git_action=fetch
+    git_action='fetch --prune'
   fi
-  echo $(tput setaf 6)git $git_action $remote_repo --prune --autostash$(tput sgr0)
-  git $git_action $remote_repo --prune --autostash
+  echo $(tput setaf 6)git $git_action $remote_repo$(tput sgr0)
+  git $git_action $remote_repo
 )
 push () (
   set -euo pipefail
