@@ -154,15 +154,11 @@ if grep -q -e '^4' -e '^5' <<<$BASH_VERSION ; then
   # 'C-x p' -> insertpb
   # 'C-x P' -> insertpbd
   # 'C-x h' -> historyfgrep
-  # 'Alt l' -> ls
-  # 'Alt L' -> ls -l
   bind -x '"\C-xc":__copyline'
   bind -x '"\C-xe":__evalline'
   bind -x '"\C-xp":__insertpb'
   bind -x '"\C-xP":__insertpbd'
   bind -x '"\C-xh":__historyfgrep'
-  bind -x '"\el": ls; echo -----'
-  bind -x '"\eL": ls -l; echo -----'
 fi
 
 # Himitsu ;-)
