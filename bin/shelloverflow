@@ -49,31 +49,38 @@ def google_for_so_questions(query):
         return []
     # mod from socli
     soup = BeautifulSoup(response.text, 'html.parser')
-    results = soup.find_all('div', class_=re.compile('g|kCrYT'))
+    results = soup.find_all('div', class_=re.compile(r'g|kCrYT'))
     try:
         #                   question url                   question title
-        question_results = [(result.find("a").get("href"), result.find("h3", class_=re.compile('r|LC20lb|zBAuLc')).get_text()) for result in results if result.find("h3", class_=re.compile('r|LC20lb|zBAuLc'))]
+        question_results = [(result.find("a").get("href"), result.find("h3", class_=re.compile(r'r|LC20lb|zBAuLc')).get_text()) for result in results if result.find("h3", class_=re.compile(r'r|LC20lb|zBAuLc'))]
     except AttributeError:
         print(response.text, file=open('/tmp/shelloverflow_debug', 'w'))
         print('Failed to extract search results from google. Saved html to /tmp/shelloverflow_debug for debugging', file=sys.stderr)
         exit(1)
-    return [q for q in question_results if extract_so_qid_from(q[0])]
+    # HACK: Each entry in question_results are duplicated, I don't know why.
+    # Instead of fixing the real reason, do a quick & dirty unique
+    good_question_results = [q for q in question_results if extract_so_qid_from(q[0])]
+    # Some blackmagic copied from www.martinbroadhurst.com/removing-duplicates-from-a-list-while-preserving-order-in-python.html
+    seen = set()
+    unique_question_results = [q for q in good_question_results if (q in seen or seen.add(q))]
+    return unique_question_results
 
 def extract_so_qid_from(url):
-    url = re.sub('^/url.q=', '', url)
+    url = re.sub(r'^/url.q=', '', url)
     netloc = urllib.parse.urlsplit(url).netloc
     stackexchange_sites_pattern = '|'.join(stackexchange_sites.keys())
     stackexchange_sites_reversed = {v: k for k, v in stackexchange_sites.items()}
 
-    if re.search(stackexchange_sites_pattern, netloc) and re.search('/(questions|q)/(\d+)', url):
+    if re.search(stackexchange_sites_pattern, netloc) and re.search(r'/(questions|q)/(\d+)', url):
         matched_domain = re.search(stackexchange_sites_pattern, netloc).group(0)
         matched_site = stackexchange_sites_reversed.get(matched_domain, None)
-        qid = re.search('/(questions|q)/(\d+)', url).group(2)
+        qid = re.search(r'/(questions|q)/(\d+)', url).group(2)
         return matched_domain, qid
     else:
         return None
 
 def so_qna_in_json(site, qid):
+    'Fetch JSON formatted Q&A info from stackoverflow-ish REST using site/qid.'
     so_question_api_url = so_api_url.format(qid, site, so_api_filter)
     res = requests.get(so_question_api_url)
     assert res.status_code == 200, f'return code is {res.status_code} while querying {so_question_api_url}'
