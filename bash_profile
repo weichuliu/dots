@@ -18,7 +18,7 @@ __dots_dir="$( dirname "$( readlink "$BASH_SOURCE" )" )"
 [[ -f "${__dots_dir}/completes" ]] && source "${__dots_dir}/completes"
 
 # iTerm2 integration
-[[ -f "${__dots_dir}/iterm2_shell_integration.bash" ]] && source "${__dots_dir}/iterm2_shell_integration.bash"
+[[ -f "${__dots_dir}/iterm2_shell_integration.bash" ]] && ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=yes source "${__dots_dir}/iterm2_shell_integration.bash"
 
 unset __dots_dir
 
