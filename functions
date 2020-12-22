@@ -154,7 +154,11 @@ if grep -q -e '^4' -e '^5' <<<$BASH_VERSION ; then
   # 'C-x p' -> insertpb
   # 'C-x P' -> insertpbd
   # 'C-x h' -> historyfgrep
-  bind -x '"\C-xc":__copyline'
+  if [[ "$(uname)" = "Darwin" ]]; then
+    bind -x '"\C-xc":__copyline'
+  else
+    bind -x '"\C-xc":__itermcopyline'
+  fi
   bind -x '"\C-xe":__evalline'
   bind -x '"\C-xp":__insertpb'
   bind -x '"\C-xP":__insertpbd'
