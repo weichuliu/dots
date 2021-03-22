@@ -16,6 +16,21 @@ prune () (
   echo $(tput setaf 6)git $git_action $remote_repo$(tput sgr0)
   git $git_action $remote_repo
 )
+prune-rebase () (
+  prune
+
+  # Find the 'master' branch by trial/error
+  for m_branch in master main trunk; do
+    if git branch -a | grep -q "origin/${m_branch}\$"; then
+      git rebase --autostash "origin/${m_branch}"
+      return
+    fi
+  done
+
+  # Print error message
+  echo >&2 "Failed find a branch to rebase."
+  return 1
+)
 push () (
   set -euo pipefail
 
