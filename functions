@@ -8,7 +8,7 @@ prune () (
   remote_repo="${remote_repo:-origin}"
   branch_name="$(git rev-parse --abbrev-ref HEAD)"
 
-  if [[ "${branch_name}" =~ ^(master|develop)$ ]]; then
+  if [[ "${branch_name}" =~ ^(master|develop|main|trunk)$ ]]; then
     git_action='pull --prune --autostash'
   else
     git_action='fetch --prune'
@@ -23,8 +23,8 @@ push () (
   branch_name="$(git rev-parse --abbrev-ref HEAD)"
 
   if [ "${1:-}" == "force" ]; then
-    [[ "${branch_name}" =~ ^(master|develop)$ ]] &&
-      echo "Cannot force-push to master or develop" >&2 &&
+    [[ "${branch_name}" =~ ^(master|develop|main|trunk)$ ]] &&
+      echo "Cannot force-push to master / develop / main / trunk" >&2 &&
       false
     cmd="git push $remote_repo --force-with-lease"
     color_cmd="git push $remote_repo $(tput setaf 1)--force-with-lease $(tput setaf 2)$branch_name$(tput sgr0)"
