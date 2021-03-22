@@ -3,8 +3,8 @@
 ## history
 shopt -s histappend
 export HISTCONTROL=ignoreboth
-export HISTSIZE=50000
-export HISTFILESIZE=50000
+export HISTSIZE=100000
+export HISTFILESIZE=100000
 
 ## colored ls/grep
 export CLICOLOR=true
