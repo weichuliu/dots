@@ -28,6 +28,7 @@ alias develop='git checkout develop'
 alias rcont='git rebase --continue'
 alias mcont='git merge --continue'
 alias force='push force'
+alias gitroot='cd $(git rev-parse --show-toplevel)'
 
 ## use fancy git diff to diff files
 alias difff='git diff --no-index'
