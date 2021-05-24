@@ -1,14 +1,16 @@
 // Settings in here override those in "Default/Preferences.sublime-settings",
 // and are overridden in turn by syntax-specific settings.
 {
+    "color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
     "ensure_newline_at_eof_on_save": true,
-    "font_size": 14,
-    "ignored_packages":
-    [
-        "Vintage"
+    "file_tab_style": "angled",
+    "font_size": 18,
+    "ignored_packages": [
+        "Vintage",
     ],
     "show_encoding": true,
     "show_full_path": true,
     "show_line_endings": true,
+    "show_sidebar_button": false,
     "translate_tabs_to_spaces": true,
 }
