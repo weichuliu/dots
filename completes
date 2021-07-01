@@ -1,2 +1,11 @@
 #!/bin/bash
-true
+
+# git aliases in aliases
+__git_complete gdiff    _git_diff     # git diff
+__git_complete cached   _git_diff     # git diff --cached
+__git_complete commit   _git_commit   # git commit
+__git_complete status   _git_status   # git status
+__git_complete checkout _git_checkout # git checkout
+__git_complete stash    _git_stash    # git stash
+__git_complete branch   _git_branch   # git branch
+__git_complete tag      _git_tag      # git tag
