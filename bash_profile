@@ -26,5 +26,5 @@ unset __dots_dir
 [[ -f ~/.fortytwo ]] && source ~/.fortytwo
 
 # rbenv + pyenv
-command -v rbenv &>/dev/null && eval "$(rbenv init - --no-rehash 2>/dev/null)"
-command -v pyenv &>/dev/null && eval "$(pyenv init - --no-rehash 2>/dev/null)"
+command -v rbenv &>/dev/null && eval "$(rbenv init - 2>/dev/null)"
+command -v pyenv &>/dev/null && eval "$(pyenv init --path 2>/dev/null)"
