@@ -66,7 +66,7 @@ def google_for_so_questions(query):
     return unique_question_results
 
 def extract_so_qid_from(url):
-    url = re.sub(r'^/url.q=', '', url)
+    url = [re.sub(r'^url=', '', u) for u in url.split('&') if u.startswith('url=')][0]
     netloc = urllib.parse.urlsplit(url).netloc
     stackexchange_sites_pattern = '|'.join(stackexchange_sites.keys())
     stackexchange_sites_reversed = {v: k for k, v in stackexchange_sites.items()}
