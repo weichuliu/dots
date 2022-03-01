@@ -129,6 +129,29 @@ pbedit-subl () {
   [[ -p /dev/stdout ]] && pbpaste
 }
 
+# diff contents from contents in pasteboard
+diff-pb () (
+  cd "$(mktemp -d)"
+
+  echo >&2 "Copy contents A"
+
+  pb0_md5="$(pbpaste | md5)" # pb before command, don't use.
+
+  # Loop till pb change
+  while [[ "$(pbpaste | md5 )" = "$pb0_md5" ]]; do sleep 0.5; done
+
+  pbpaste > A
+  pb1_md5="$(cat A | md5)"
+  echo >&2 "A copied. Now copy contents B"
+
+  # Loop till pb change
+  while [[ "$(pbpaste | md5 )" = "$pb1_md5" ]]; do sleep 0.5; done
+
+  pbpaste > B
+
+  git diff --no-index A B
+)
+
 
 # Convenient Functions that manipulate READLINE_LINE
 # This requires bash 4.x+ (/usr/local/bin/bash)
