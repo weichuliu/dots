@@ -52,7 +52,7 @@ alias timeat='date -r'
 alias pgrepp='pgrep -afli'
 
 ## vagrant
-alias ub="VAGRANT_CWD=$HOME/work/vms/focal vagrant"
+alias ub="VAGRANT_CWD=$HOME/work/vms/jammy vagrant"
 alias centos="VAGRANT_CWD=$HOME/work/vms/centos vagrant"
 
 ## cd
