@@ -1,7 +1,11 @@
 #!/bin/bash
+
+# M1 Homebrew init
+[[ -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # Auto completion with bash-completion@2
-[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && \
-    BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d" source "/usr/local/etc/profile.d/bash_completion.sh"
+[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && \
+    BASH_COMPLETION_COMPAT_DIR="/opt/homebrew/etc/bash_completion.d" source "/opt/homebrew/etc/profile.d/bash_completion.sh"
 # Old bash-completion for backward compatibility
 [[ -f /usr/local/etc/bash_completion ]] && source /usr/local/etc/bash_completion
 
