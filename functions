@@ -67,8 +67,8 @@ delete-merged () {
       [[ "${THE_answer}" = "42" ]] || return
       local b
       for b in $merged_branches; do
-        echo $(tput setaf 2)git branch -d "$merged_branches"$(tput sgr0)
-        git branch -d "$merged_branches"
+        echo $(tput setaf 2)git branch -d "$b"$(tput sgr0)
+        git branch -d "$b"
       done
     fi
   else
