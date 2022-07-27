@@ -53,6 +53,28 @@ push () (
   [[ "${THE_answer}" = "42" ]]
   $cmd $branch_name
 )
+delete-merged () {
+  local current_branch="$(git branch --show-current)"
+  if [[ "$current_branch" =~ ^(master|main)$ ]]; then
+    local merged_branches="$(git branch --merged | grep -v "^. $current_branch\$" | sed 's:^ *::')"
+    if [[ -z "$merged_branches" ]]; then
+      echo >&2 "No more merged branch. Do nothing"
+    else
+      echo >&2 "Deleting these branches?"
+      echo "$merged_branches"
+      local THE_answer
+      read -p "[type 42 to continue] " THE_answer
+      [[ "${THE_answer}" = "42" ]] || return
+      local b
+      for b in $merged_branches; do
+        echo $(tput setaf 2)git branch -d "$merged_branches"$(tput sgr0)
+        git branch -d "$merged_branches"
+      done
+    fi
+  else
+    echo >&2 "Branch not on master/main. Do nothing"
+  fi
+}
 
 ## subl
 sf. () { f. $@ | tee >(tr '\n' '\0' | xargs -0 subl); }
